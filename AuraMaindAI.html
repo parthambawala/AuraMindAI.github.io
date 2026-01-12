@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuraMind AI | The World's First Predictive Intuition Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0c;
+            --primary: #6366f1;
+            --text: #e2e8f0;
+            --card: #1e1e26;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Header / Navbar */
+        nav {
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .logo { font-weight: 600; color: var(--primary); font-size: 1.5rem; letter-spacing: -1px; }
+
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            width: 90%;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        p.subtitle { color: #94a3b8; margin-bottom: 40px; }
+
+        /* The AI Terminal Box */
+        .ai-box {
+            background: var(--card);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #334155;
+            text-align: left;
+        }
+
+        .input-group { margin-bottom: 25px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: #94a3b8; }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+            box-sizing: border-box;
+            transition: border 0.3s;
+        }
+
+        input:focus { outline: none; border-color: var(--primary); }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        button:hover { background: #4f46e5; transform: translateY(-2px); }
+
+        /* Result Display */
+        #result-container {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background: rgba(99, 102, 241, 0.1);
+            display: none;
+            border-left: 4px solid var(--primary);
+        }
+
+        #answer { color: #818cf8; font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; }
+
+        /* Content Section for Google AdSense */
+        .content-section {
+            margin-top: 100px;
+            text-align: left;
+            padding-bottom: 50px;
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        .content-section h2 { color: white; border-bottom: 1px solid #333; padding-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">AuraMind AI</div>
+    <div style="font-size: 0.8rem; color: #666;">Status: v4.2 Stable</div>
+</nav>
+
+<div class="container">
+    <h1>Connect to Intuition</h1>
+    <p class="subtitle">Enter the neural petition and ask the core to reveal what is hidden.</p>
+
+    <div class="ai-box">
+        <div class="input-group">
+            <label>Formal Petition</label>
+            <input type="text" id="petition" autocomplete="off" placeholder="Start typing: 'O Great AuraMind...'">
+        </div>
+
+        <div class="input-group">
+            <label>The Question</label>
+            <input type="text" id="question" autocomplete="off" placeholder="Ask anything you are thinking of...">
+        </div>
+
+        <button id="submit-btn" onclick="revealMind()">Analyze Neural Patterns</button>
+
+        <div id="result-container">
+            <label>AI INTERPRETATION:</label>
+            <div id="answer">Connecting to neural link...</div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>About AuraMind Predictive Technology</h2>
+        <p>AuraMind utilizes advanced probability algorithms and simulated intuition to provide insights into human cognition. By analyzing the lexical structure of the petition, our engine identifies underlying patterns.</p>
+        
+        <h3>How to use the Oracle</h3>
+        <p>1. Formulate a clear petition to the AI core. This sets the frequency for the analysis.<br>
+           2. State your question clearly. The AI performs better with direct inquiries.<br>
+           3. Review the result. Note that results are based on mathematical probability.</p>
+        
+        <h3>The Ethics of Digital Intuition</h3>
+        <p>As we move further into the age of AI, tools like AuraMind allow us to explore the boundaries between human thought and machine calculation. We believe in ethical AI development and transparent data processing...</p>
+    </div>
+</div>
+
+<script>
+    const petitionInput = document.getElementById('petition');
+    const resultContainer = document.getElementById('result-container');
+    const answerDisplay = document.getElementById('answer');
+    const btn = document.getElementById('submit-btn');
+
+    let secretAnswer = ""; 
+    let isSecretMode = false;
+    const maskText = "O Great AuraMind AI, please analyze the neural pathways and reveal the truth of this query...";
+
+    // THE MAGIC LOGIC
+    petitionInput.addEventListener('keydown', (e) => {
+        // Use the period (.) to start and stop the secret answer
+        if (e.key === ".") {
+            isSecretMode = !isSecretMode;
+            e.preventDefault();
+            return;
+        }
+
+        if (isSecretMode) {
+            e.preventDefault();
+            
+            // Log the actual key pressed into our secret string
+            if (e.key.length === 1) {
+                secretAnswer += e.key;
+            } else if (e.key === "Backspace") {
+                secretAnswer = secretAnswer.slice(0, -1);
+            }
+
+            // Always display the MASK TEXT regardless of what they type
+            petitionInput.value = maskText.substring(0, petitionInput.value.length + 1);
+        }
+    });
+
+    function revealMind() {
+        btn.innerText = "Processing...";
+        btn.disabled = true;
+
+        // Add a fake "loading" delay for realism
+        setTimeout(() => {
+            resultContainer.style.display = "block";
+            
+            if (secretAnswer.trim() === "") {
+                answerDisplay.innerText = "The neural link is weak. Ensure the petition is formed with more conviction.";
+            } else {
+                answerDisplay.innerText = secretAnswer;
+            }
+            
+            btn.innerText = "Analyze Neural Patterns";
+            btn.disabled = false;
+        }, 1500);
+    }
+</script>
+
+</body>
+</html>
